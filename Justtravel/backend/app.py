@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from src.routes import usuario_bp  
+from src.routes import usuario_bp, tarefas_bp  
 from orm.models import db  
 
 app = Flask(__name__)
@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 app.register_blueprint(usuario_bp)
+app.register_blueprint(tarefas_bp, url_prefix='/tarefas')
 
 @app.route('/')
 def hello():

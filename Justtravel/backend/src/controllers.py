@@ -1,6 +1,9 @@
 from orm.models import Tarefa, db
 from flask import request, jsonify
-def listar_tarefas():
+
+class TarefaController():
+  @staticmethod
+  def listar_tarefas():
     try:
         tarefas = Tarefa.query.all()
         resultado = []
@@ -14,8 +17,8 @@ def listar_tarefas():
     except Exception as error:
         return jsonify({'Erro interno no servidor': str(error)}), 500
 
-
-def criar_tarefa():
+  @staticmethod
+  def criar_tarefa():
     try:
         data = request.get_json()
         nome = data.get('nome')
@@ -37,8 +40,8 @@ def criar_tarefa():
     except Exception as error:
         db.session.rollback()  
         return jsonify({'Erro interno no servidor': str(error)}), 500
-
-def update_tarefa(tarefa_id):
+  @staticmethod
+  def update_tarefa(tarefa_id):
     try:
         tarefa = Tarefa.query.get(tarefa_id)
         if tarefa:
@@ -57,12 +60,12 @@ def update_tarefa(tarefa_id):
             'is_finalizado': tarefa.is_finalizado
         })
              
-        return response('N encontrado'), 204
+        return jsonify('N encontrado'), 204
     except Exception as error:
         return jsonify({'Erro interno no servidor': str(error)}), 500
 
-
-def delete_tarefa(tarefa_id):
+  @staticmethod
+  def delete_tarefa(tarefa_id):
     try:
         tarefa = Tarefa.query.get(tarefa_id)
         if tarefa:
