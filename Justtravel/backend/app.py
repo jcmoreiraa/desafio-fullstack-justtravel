@@ -8,8 +8,22 @@ from src.routes import usuario_bp, tarefas_bp
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000", os.getenv("FRONTEND_PROD_URL", "")])
-CORS(app, supports_credentials=True)
+from flask import Flask
+from flask_cors import CORS
+import os
+
+app = Flask(__name__)
+
+CORS(app, 
+     origins=[
+         "http://localhost:3000", 
+         "https://desafio-fullstack-justtravel-inli.vercel.app",
+         os.getenv("FRONTEND_PROD_URL", "https://desafio-fullstack-justtravel-inli.vercel.app")
+     ],
+     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+     allow_headers=["Content-Type", "Authorization"],
+     supports_credentials=True,
+     max_age=86400)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

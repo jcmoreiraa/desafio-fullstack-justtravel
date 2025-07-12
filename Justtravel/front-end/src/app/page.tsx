@@ -53,7 +53,7 @@ export default function Home() {
 
   const getCardsFromAPI = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`)
       const data = await response.json()
       setCards(data)
     } catch (error) {
