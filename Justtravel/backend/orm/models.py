@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@db:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -13,7 +13,7 @@ class PriorityEnum(enum.Enum):
     baixa = "baixa"
     media = "media"
     alta = "alta"
-    alarmante = "alarmante"
+    urgente = "urgente"
 
 class Tarefa(db.Model):
     __tablename__ = "tarefas"
@@ -22,7 +22,7 @@ class Tarefa(db.Model):
     titulo = db.Column(db.String(80), nullable=False)
     descricao = db.Column(db.String(255), default="")
     status = db.Column(db.Boolean, default=False)
-    prioridade = db.Column(db.Enum(PriorityEnum), nullable=False, default=PriorityEnum.baixa)
+    prioridade = db.Column(db.Enum(PriorityEnum), nullable=False, default=PriorityEnum.media)
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
     atualizado_em = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

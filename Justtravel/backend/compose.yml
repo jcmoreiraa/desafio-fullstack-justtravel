@@ -1,5 +1,19 @@
+version: '3.8'
 
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend.dockerfile
+    volumes:
+      - ./:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+
+    
+
   db:
     container_name: db
     image: postgres:12
@@ -10,9 +24,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-    -/var/lib/postgresql/data
-    
-      
+      - pgdata:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin
@@ -29,5 +41,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
-  
+volumes:
+  pgdata:
 
