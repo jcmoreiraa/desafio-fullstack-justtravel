@@ -8,11 +8,10 @@ import {
 } from "@/components/ui/popover"
 
 type CriarTarefaProps = {
-  onTarefaCriada: () => void;
   onPost: (data: { titulo: string; descricao: string; prioridade: string; status: boolean }) => void;
 };
 
-export default function CriarTarefaPopover({ onTarefaCriada, onPost }: CriarTarefaProps) {
+export default function CriarTarefaPopover({ onPost }: CriarTarefaProps) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [prioridade, setPrioridade] = useState("media");

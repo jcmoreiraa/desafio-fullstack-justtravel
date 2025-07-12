@@ -117,7 +117,7 @@ export default function Home() {
   return (
     <><Header onFiltroChange={setFiltro} /><main className="flex flex-col px-10 py-4 gap-8 ">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <CustomPopover onTarefaCriada={getCardsFromAPI} onPost={PostTasks} />
+        <CustomPopover  onPost={PostTasks} />
         <SheetDemo CardsVencidos={tarefasConcluidas} deleteCard={deleteCard} toggleCardStatus={toggleCardStatus} />
       </div>
 

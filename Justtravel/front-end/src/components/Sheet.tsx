@@ -1,9 +1,7 @@
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -43,7 +41,7 @@ export function SheetDemo({
       </SheetTrigger>
       <SheetContent className=" overflow-y-auto justify-between">
   <div className="grid  grid-cols-1 sm:flex sm:flex-wrap f gap-6 p-4 ">
-    {CardsVencidos.map((valor, index) => (
+    {CardsVencidos.map((valor) => (
       <div key={valor.id} className="flex-1 min-w-[300px] max-w-[350px]">
         <Card
           index={valor.id}
