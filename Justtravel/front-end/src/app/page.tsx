@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import Card from "../components/Card"
 import CustomPopover from "@/components/Popover"
 import { SheetDemo } from "../components/Sheet"
+import Header from "@/components/Header"
 
 type CardType = {
   id: number
@@ -16,7 +17,8 @@ type CardType = {
 
 export default function Home() {
   const [cards, setCards] = useState<CardType[]>([])
-  
+  const [filtro, setFiltro] = useState('')
+
   const PostTasks = async (data: { titulo: string; descricao: string; prioridade: string; status: boolean }) => {
   const now = new Date();
   const formatDate = (date: Date) => date.toISOString().split('T')[0];
@@ -28,7 +30,7 @@ export default function Home() {
   };
 
   try {
-    const response = await fetch('http://localhost:3001/tasks/', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,9 +50,10 @@ export default function Home() {
 };
 
 
+
   const getCardsFromAPI = async () => {
     try {
-      const response = await fetch('http://localhost:3001/tasks/')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`)
       const data = await response.json()
       setCards(data)
     } catch (error) {
@@ -60,7 +63,7 @@ export default function Home() {
 
   const deleteCard = async (index: number) => {
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${index}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${index}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +82,7 @@ export default function Home() {
 
   const toggleCardStatus = async (index: number, statusAtual: boolean) => {
     try {
-      const response = await fetch(`http://localhost:3001/tasks/${index}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${index}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -108,33 +111,36 @@ export default function Home() {
   const tarefasPendentes = cards.filter(card => card.status === false)
   const tarefasConcluidas = cards.filter(card => card.status === true)
 
+  const tarefasPendentesFiltro = tarefasPendentes.filter(card =>
+  card.titulo.toLowerCase().includes(filtro.toLowerCase())
+)
   return (
-   <main className="sm:px-10 py-4 gap-8 ">
-  <div className="flex flex-col sm:flex-row sm:justify-between items-center gap-4">
-    <CustomPopover onTarefaCriada={getCardsFromAPI} onPost={PostTasks} />
-    <SheetDemo CardsVencidos={tarefasConcluidas} deleteCard={deleteCard} toggleCardStatus={toggleCardStatus} />
-  </div>
-
-  <div className="flex justify-center w-full ">
-  <div className="flex flex-wrap items-start gap-4 pt-8 ">
-    {tarefasPendentes.map(card => (
-      <div key={card.id} className="min-w-[320px] max-w-[350px] flex-1">
-        <Card
-          index={card.id}
-          titulo={card.titulo}
-          descricao={card.descricao}
-          status={card.status}
-          prioridade={card.prioridade}
-          criado_em={card.criado_em}
-          atualizado_em={card.atualizado_em}
-          deleteCardProps={deleteCard}
-          toggleCardStatus={toggleCardStatus}
-        />
+    <><Header onFiltroChange={setFiltro} /><main className="flex flex-col px-10 py-4 gap-8 ">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <CustomPopover onTarefaCriada={getCardsFromAPI} onPost={PostTasks} />
+        <SheetDemo CardsVencidos={tarefasConcluidas} deleteCard={deleteCard} toggleCardStatus={toggleCardStatus} />
       </div>
-    ))}
-  </div>
-</div>
-</main>
+
+      <div className="flex justify-center items-center w-full">
+        <div className="sm:flex sm:flex-wrap col items-center gap-4 pt-8">
+          {tarefasPendentesFiltro.map(card => (
+            <div key={card.id} className="min-w-[348px] max-w-[350px] flex-1">
+              <Card
+                index={card.id}
+                titulo={card.titulo}
+                descricao={card.descricao}
+                status={card.status}
+                prioridade={card.prioridade}
+                criado_em={card.criado_em}
+                atualizado_em={card.atualizado_em}
+                deleteCardProps={deleteCard}
+                toggleCardStatus={toggleCardStatus} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </main></>
 
 
   )

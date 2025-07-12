@@ -67,8 +67,11 @@ export default function CriarTarefaPopover({ onTarefaCriada, onPost }: CriarTare
 
           <button
             type="button"
-            className="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            className={`mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition
+            ${titulo === '' 
+      ? 'cursor-not-allowed' : ''}`}
             onClick={handleSubmit}
+            disabled={titulo === ''}
           >
             Salvar tarefa
           </button>

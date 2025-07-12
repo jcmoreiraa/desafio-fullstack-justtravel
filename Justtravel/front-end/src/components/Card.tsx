@@ -108,7 +108,6 @@ const Card = ({
           </div>
         </div>
 
-        {/* Rodapé visível apenas se NÃO estiver expandido */}
         {!expandido && (
           <>
             <div className="text-xs text-gray-600 mt-4 space-y-1">
@@ -119,7 +118,7 @@ const Card = ({
               <p>Atualizado em: {atualizado_em}</p>
             </div>
 
-            <button className="mt-4 bg-red-400 text-white px-4 py-2 rounded-lg shadow hover:bg-red-500 transition" onClick={() => toggleCardStatus(index, status)}>
+            <button className="mt-4 bg-red-400 text-white px-4 py-2 rounded-lg shadow hover:bg-red-500 transition cursor-pointer" onClick={() => toggleCardStatus(index, status)}>
               {!status ? 'Finalizar Tarefa' : 'Reativar Tarefa'}
             </button>
           </>
