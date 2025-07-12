@@ -32,7 +32,7 @@ const Card = (props: Props) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`cursor-pointer w-full max-w-sm  p-6 mb-6 rounded-xl shadow-md border-l-8 flex flex-col justify-between ${prioridadeClass[props.prioridade]} transition-all hover:scale-[1.01]`}
+      className={`cursor-pointer w-full max-w-sm  px-4 py-2 mb-6 rounded-xl shadow-md border-l-8 flex flex-col justify-between ${prioridadeClass[props.prioridade]} transition-all hover:scale-[1.01]`}
     >
       <div className="pt-4 pb-4 space-y-8">
         <h2 className="text-2xl font-bold">{props.titulo}</h2>
