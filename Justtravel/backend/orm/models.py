@@ -27,18 +27,9 @@ class Tarefa(db.Model):
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
     atualizado_em = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    comentarios = db.relationship("Comentario", backref="tarefa", lazy=True)
 
-    def __repr__(self):
-        return f"<Tarefa {self.titulo}>"
+    
 
-class Comentario(db.Model):
-    __tablename__ = "comentarios"
-
-    id = db.Column(db.Integer, primary_key=True)
-    task_id = db.Column(db.Integer, db.ForeignKey("tarefas.id"), nullable=False)
-    conteudo = db.Column(db.String(255), nullable=False)
-    criado_em = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 with app.app_context():

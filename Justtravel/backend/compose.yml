@@ -5,13 +5,12 @@ services:
     build:
       context: .
       dockerfile: backend.dockerfile
-    volumes:
-      - ./:/app
+    env_file:
+      - .env
     ports:
       - "3001:3001"
     depends_on:
       - db
-
     
 
   db:

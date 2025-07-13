@@ -14,7 +14,7 @@ export default function Header({ onFiltroChange }: Props) {
   }
 
   return (
-    <header className="bg-blue-200 py-4 flex px-6 items-center justify-around shadow-md border-b-2 border-blue-300 mb-6 shadow-md-blue-300">
+    <header className="bg-blue-200 py-4 flex px-6 items-center justify-around shadow-md border-b-2 border-blue-300 mb-6 shadow-md-blue-300 shadow-xl">
       <div className="text-blue-800 font-bold text-lg">Home</div>
 
       <div className="mx-4 min-w-[40%]">

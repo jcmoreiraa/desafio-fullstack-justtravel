@@ -30,7 +30,7 @@ export default function Home() {
   };
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/`, {
+const response = await fetch(`https://desafio-fullstack-justtravel.onrender.com/tasks/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function Home() {
 
   const getCardsFromAPI = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`)
+      const response = await fetch(`https://desafio-fullstack-justtravel.onrender.com/tasks/`)
       const data = await response.json()
       setCards(data)
     } catch (error) {
@@ -63,7 +63,7 @@ export default function Home() {
 
   const deleteCard = async (index: number) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${index}`, {
+      const response = await fetch(`https://desafio-fullstack-justtravel.onrender.com/tasks/${index}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export default function Home() {
 
   const toggleCardStatus = async (index: number, statusAtual: boolean) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${index}`, {
+      const response = await fetch(`https://desafio-fullstack-justtravel.onrender.com/tasks/${index}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -91,11 +91,17 @@ export default function Home() {
       })
 
       if (response.ok) {
-        setCards(prev =>
-          prev.map(card =>
-            card.id === index ? { ...card, status: !card.status } : card
-          )
-        )
+        setCards(prev => prev.map((card) => {
+          if (card.id === index) {
+            return {
+              ...card,
+              status: !statusAtual,
+            };
+          } else {
+            return card;
+          }
+        }
+      ))
       } else {
         console.error("Erro ao atualizar status da tarefa")
       }

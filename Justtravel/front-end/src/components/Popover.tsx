@@ -17,7 +17,9 @@ export default function CriarTarefaPopover({ onPost }: CriarTarefaProps) {
   const [prioridade, setPrioridade] = useState("media");
 
   const handleSubmit = () => {
+
     onPost({ titulo, descricao, prioridade, status: false });
+    console.log("Tarefa criada:", { titulo, descricao, prioridade, status: false });
     setTitulo('');
     setDescricao('');
     setPrioridade('media');
