@@ -1,9 +1,12 @@
+import Gitsilbol from '@/app/assets/icons/GitSilbol';
 import React from 'react';
 
 export default function Footer() {
   return (
     <footer className="bg-blue-200 py-6 px-4 text-center shadow-xl w-full border-t-2 border-blue-300 mt-6">
       <div className="space-y-2">
+       <div className='flex items-center justify-center gap-2'>
+          <Gitsilbol />
         <p>
           <a
             href="https://github.com/Jcmoreiraa"
@@ -14,8 +17,8 @@ export default function Footer() {
             @Jcmoreiraa
           </a>
         </p>
-        <p className="text-gray-800 font-semibold">🚀 I love Ruby on Rails</p>
-        <p className="text-gray-700 font-medium">🎓 TITAN UFBA</p>
+        </div>
+        <p className="text-gray-700 font-bold"> UFBA</p>
       </div>
     </footer>
   );

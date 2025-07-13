@@ -1,5 +1,5 @@
 'use client'
-import SvgIcon from '@/app/assets/icons/xSimbol'
+import SvgIcon from '@/app/assets/icons/XSimbol'
 import React, { useState, useRef, useEffect } from 'react'
 
 type Props = {
@@ -47,7 +47,7 @@ const Card = ({
   return (
     <div
       className={`w-full max-w-sm ${
-        expandido ? 'h-auto' : 'h-[360px]'
+        expandido ? 'h-[360px]' : 'h-[360px]'
       } px-3 py-2 mb-6 rounded-xl shadow-md border-l-8 flex flex-col justify-between ${
         prioridadeClass[prioridade]
       } transition-all duration-300 hover:scale-[1.01]`}

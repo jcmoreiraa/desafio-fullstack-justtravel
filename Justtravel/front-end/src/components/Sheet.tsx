@@ -37,7 +37,7 @@ export function SheetDemo({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="rounded-md bg-blue-500 text-white py-2 px-4"> Tarefas cumpridas</button>
+        <button className="rounded-md bg-blue-500 text-white hover: hover:bg-blue-700 py-2 px-4"> Tarefas cumpridas</button>
       </SheetTrigger>
       <SheetContent className=" overflow-y-auto justify-between">
   <div className="grid  grid-cols-1 sm:flex sm:flex-wrap f gap-6 p-4 ">
