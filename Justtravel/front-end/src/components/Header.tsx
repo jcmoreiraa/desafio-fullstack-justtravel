@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 
 type Props = {
-  onFiltroChange: (termo: string) => void
-  onFiltroTipoChange: (tipo: 'data' | 'urgencia') => void
+  onFilterChange: (term: string) => void
+  onFilterTypeChange: (type: 'data' | 'urgencia') => void
 }
 
-export default function Header({ onFiltroChange, onFiltroTipoChange }: Props) {
-  const [termoBusca, setTermoBusca] = useState('')
-  const [filtroTipo, setFiltroTipo] = useState<'data' | 'urgencia'>('data')
+export default function Header({ onFilterChange, onFilterTypeChange }: Props) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterType, setFilterType] = useState<'data' | 'urgencia'>('data')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value
-    setTermoBusca(valor)
-    onFiltroChange(valor)
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchTerm(value)
+    onFilterChange(value)
   }
 
-  const handleFiltroTipoChange = (tipo: 'data' | 'urgencia') => {
-    setFiltroTipo(tipo)
-    onFiltroTipoChange(tipo)
+  const handleFilterTypeChange = (type: 'data' | 'urgencia') => {
+    setFilterType(type)
+    onFilterTypeChange(type)
   }
 
   return (
@@ -27,9 +27,9 @@ export default function Header({ onFiltroChange, onFiltroTipoChange }: Props) {
       <div className="mx-4 min-w-[40%] flex-grow max-w-xl">
         <input
           type="text"
-          placeholder="Buscar tarefas..."
-          value={termoBusca}
-          onChange={handleChange}
+          placeholder="Pesquisar Tasks..."
+          value={searchTerm}
+          onChange={handleSearchInputChange}
           className="w-full px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent font-bold"
         />
       </div>
@@ -37,9 +37,9 @@ export default function Header({ onFiltroChange, onFiltroTipoChange }: Props) {
       <div className="flex gap-4 items-center min-w-[200px]">
         <button
           type="button"
-          onClick={() => handleFiltroTipoChange('data')}
-          className={`px-4 py-2 rounded-md font-bold border ${
-            filtroTipo === 'data'
+          onClick={() => handleFilterTypeChange('data')}
+          className={`px-4 py-2 rounded-md font-bold border cursor-pointer ${
+            filterType === 'data'
               ? 'bg-blue-500 text-white border-blue-500'
               : 'bg-white text-blue-500 border-blue-500 hover:bg-blue-100'
           } transition`}
@@ -49,14 +49,14 @@ export default function Header({ onFiltroChange, onFiltroTipoChange }: Props) {
 
         <button
           type="button"
-          onClick={() => handleFiltroTipoChange('urgencia')}
-          className={`px-4 py-2 rounded-md font-bold border ${
-            filtroTipo === 'urgencia'
+          onClick={() => handleFilterTypeChange('urgencia')}
+          className={`px-4 py-2 rounded-md font-bold border cursor-pointer ${
+            filterType === 'urgencia'
               ? 'bg-blue-500 text-white border-blue-500'
               : 'bg-white text-blue-500 border-blue-500 hover:bg-blue-100'
           } transition`}
         >
-          Urgência
+          Urgencia
         </button>
       </div>
     </header>

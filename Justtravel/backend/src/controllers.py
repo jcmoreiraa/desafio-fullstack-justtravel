@@ -2,115 +2,116 @@ from datetime import datetime
 from orm.models import Tarefa, db
 from flask import request, jsonify
 
-class TarefaController():
-  @staticmethod
-  def listar_tarefas():
+class TaskController:
+  
+    @staticmethod
+    def get_all_tasks():
         try:
-            tarefas = Tarefa.query.order_by(Tarefa.id.asc()).all()
-            resultado = []
-            for tarefa in tarefas:
-                resultado.append({
-                    'id': tarefa.id,
-                    'titulo': tarefa.titulo,
-                    'descricao':tarefa.descricao,
-                    'status': tarefa.status,
-                    'prioridade': tarefa.prioridade.name,
-                    'criado_em': tarefa.criado_em.strftime('%Y-%m-%d'),
-                    'atualizado_em': tarefa.atualizado_em.strftime('%Y-%m-%d')
+            tasks = Tarefa.query.order_by(Tarefa.id.asc()).all()
+            result = []
+            for task in tasks:
+                result.append({
+                    'id': task.id,
+                    'titulo': task.titulo,
+                    'descricao': task.descricao,
+                    'status': task.status,
+                    'prioridade': task.prioridade.name,
+                    'criado_em': task.criado_em.strftime('%Y-%m-%d'),
+                    'atualizado_em': task.atualizado_em.strftime('%Y-%m-%d')
                 })
-            return jsonify(resultado)
+            return jsonify(result)
         except Exception as error:
             return jsonify({'Erro interno no servidor': str(error)}), 500
-  @staticmethod
 
+    @staticmethod
+    def create_task():
+        try:
+            data = request.get_json()
 
-  def criar_tarefa():
-    try:
-        data = request.get_json()
+            titulo = data.get('titulo')
+            descricao = data.get('descricao', '')
+            prioridade = data.get('prioridade', 'media')
+            status = data.get('status', False)
+            created_at = datetime.utcnow()
+            updated_at = datetime.utcnow()
 
-        titulo = data.get('titulo')
-        descricao = data.get('descricao', '')
-        prioridade = data.get('prioridade', 'media')
-        status = data.get('status', False)
-        criado_em = datetime.utcnow()
-        atualizado_em = datetime.utcnow()
+            if not titulo:
+                return jsonify({'error': 'Título é obrigatório'}), 400
 
-        if not titulo:
-            return jsonify({'error': 'Título é obrigatório'}), 400
+            new_task = Tarefa(
+                titulo=titulo,
+                descricao=descricao,
+                prioridade=prioridade,
+                status=status,
+                criado_em=created_at,
+                atualizado_em=updated_at
+            )
 
-        nova_tarefa = Tarefa(
-            titulo=titulo,
-            descricao=descricao,
-            prioridade=prioridade,
-            status=status,
-            criado_em=criado_em,
-            atualizado_em=atualizado_em
-        )
-        db.session.add(nova_tarefa)
-        db.session.commit()
-
-        return jsonify({
-            'id': nova_tarefa.id,
-            'titulo': nova_tarefa.titulo,
-            'descricao': nova_tarefa.descricao,
-            'prioridade': nova_tarefa.prioridade.name,
-            'status': nova_tarefa.status,
-            'criado_em': nova_tarefa.criado_em.isoformat(),
-            'atualizado_em': nova_tarefa.atualizado_em.isoformat()
-        }), 201
-
-    except Exception as error:
-        db.session.rollback()
-        return jsonify({'Erro interno no servidor': str(error)}), 500
-
-  @staticmethod
-  def update_tarefa(tarefa_id):
-    try:
-        tarefa = Tarefa.query.get(tarefa_id)
-        if tarefa:
-            tarefa.status = not tarefa.status
-            tarefa.atualizado_em = datetime.utcnow()
+            db.session.add(new_task)
             db.session.commit()
 
             return jsonify({
-                'id': tarefa.id,
-                'titulo': tarefa.titulo,
-                'descricao': tarefa.descricao,
-                'prioridade': tarefa.prioridade.name,
-                'status': tarefa.status,
-                'criado_em': tarefa.criado_em.isoformat(),
-                'atualizado_em': tarefa.atualizado_em.isoformat()
-            }), 200
+                'id': new_task.id,
+                'titulo': new_task.titulo,
+                'descricao': new_task.descricao,
+                'prioridade': new_task.prioridade.name,
+                'status': new_task.status,
+                'criado_em': new_task.criado_em.isoformat(),
+                'atualizado_em': new_task.atualizado_em.isoformat()
+            }), 201
 
-        return jsonify({'mensagem': 'Tarefa não encontrada'}), 404
-    except Exception as error:
-        db.session.rollback()
-        return jsonify({'Erro interno no servidor': str(error)}), 500
+        except Exception as error:
+            db.session.rollback()
+            return jsonify({'Erro interno no servidor': str(error)}), 500
 
-  @staticmethod
-  def delete_tarefa(tarefa_id):
-    try:
-        tarefa = Tarefa.query.get(tarefa_id)
-        if tarefa:
-            tarefa_info = {
-                'id': tarefa.id,
-                'titulo': tarefa.titulo,
-                'descricao': tarefa.descricao,
-                'prioridade': tarefa.prioridade.name,
-                'status': tarefa.status,
-                'criado_em': tarefa.criado_em.isoformat(),
-                'atualizado_em': tarefa.atualizado_em.isoformat()
-            }
+    @staticmethod
+    def update_task(task_id):
+        try:
+            task = Tarefa.query.get(task_id)
+            if task:
+                task.status = not task.status
+                task.atualizado_em = datetime.utcnow()
+                db.session.commit()
 
-            db.session.delete(tarefa)
-            db.session.commit()
+                return jsonify({
+                    'id': task.id,
+                    'titulo': task.titulo,
+                    'descricao': task.descricao,
+                    'prioridade': task.prioridade.name,
+                    'status': task.status,
+                    'criado_em': task.criado_em.isoformat(),
+                    'atualizado_em': task.atualizado_em.isoformat()
+                }), 200
 
-            return jsonify({
-                'mensagem': 'Tarefa deletada com sucesso',
-                'tarefa': tarefa_info
-            }), 200
+            return jsonify({'mensagem': 'Tarefa não encontrada'}), 404
+        except Exception as error:
+            db.session.rollback()
+            return jsonify({'Erro interno no servidor': str(error)}), 500
 
-        return jsonify({'mensagem': 'Tarefa não foi encontrada'}), 404
-    except Exception as error:
-        db.session.rollback()
-        return jsonify({'Erro interno no servidor': str(error)}), 500
+    @staticmethod
+    def delete_task(task_id):
+        try:
+            task = Tarefa.query.get(task_id)
+            if task:
+                task_info = {
+                    'id': task.id,
+                    'titulo': task.titulo,
+                    'descricao': task.descricao,
+                    'prioridade': task.prioridade.name,
+                    'status': task.status,
+                    'criado_em': task.criado_em.isoformat(),
+                    'atualizado_em': task.atualizado_em.isoformat()
+                }
+
+                db.session.delete(task)
+                db.session.commit()
+
+                return jsonify({
+                    'mensagem': 'Tarefa deletada com sucesso',
+                    'tarefa': task_info
+                }), 200
+
+            return jsonify({'mensagem': 'Tarefa não foi encontrada'}), 404
+        except Exception as error:
+            db.session.rollback()
+            return jsonify({'Erro interno no servidor': str(error)}), 500

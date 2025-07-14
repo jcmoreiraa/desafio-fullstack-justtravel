@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from orm.models import db
-from src.routes import usuario_bp, tarefas_bp
+from src.routes import  task_bp
 
 app = Flask(__name__)
 
@@ -13,8 +13,7 @@ db.init_app(app)
 
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=False)
 
-app.register_blueprint(usuario_bp)
-app.register_blueprint(tarefas_bp, url_prefix='/tasks')
+app.register_blueprint(task_bp, url_prefix='/tasks')
 
 @app.route('/')
 def hello():

@@ -25,35 +25,33 @@ const Card = ({
   deleteCardProps,
   toggleCardStatus
 }: Props) => {
-  const [expandido, setExpandido] = useState(false)
-  const [precisaVerMais, setPrecisaVerMais] = useState(false)
-  const descricaoRef = useRef<HTMLParagraphElement>(null)
+  const [expanded, setExpanded] = useState(false)
+  const [needsExpandToggle, setNeedsExpandToggle] = useState(false)
+  const descriptionRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
-    if (descricaoRef.current) {
-      setPrecisaVerMais(descricaoRef.current.scrollHeight > descricaoRef.current.clientHeight)
+    if (descriptionRef.current) {
+      setNeedsExpandToggle(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight)
     }
   }, [descricao])
 
-  const prioridadeClass = {
+  const priorityClassMap = {
     baixa: 'bg-green-100 border-green-400',
     media: 'bg-yellow-100 border-yellow-400',
     alta: 'bg-orange-100 border-orange-400',
     urgente: 'bg-red-100 border-red-400',
   }
 
-
-
   return (
     <div
       className={`w-full max-w-sm ${
-        expandido ? 'h-[360px]' : 'h-[360px]'
+        expanded ? 'h-[360px]' : 'h-[360px]'
       } px-3 py-2 mb-6 rounded-xl shadow-md border-l-8 flex flex-col justify-between ${
-        prioridadeClass[prioridade]
+        priorityClassMap[prioridade]
       } transition-all duration-300 hover:scale-[1.01]`}
     >
       <div className="flex justify-end">
-        <button className='cursor-pointer' onClick={() => deleteCardProps(index)}>
+        <button className="cursor-pointer" onClick={() => deleteCardProps(index)}>
           <SvgIcon />
         </button>
       </div>
@@ -64,42 +62,42 @@ const Card = ({
 
           <span
             className={`text-xs px-3 py-1 rounded-full inline-block ${
-              status ? 'bg-green-300 text-green-800' : 'bg-gray-300 text-gray-700'
+              status ? 'bg-green-300 text-green-800' : 'bg-[rgba(0,0,0,0.14)] text-gray-700'
             }`}
           >
-            {status ? 'Concluída' : 'Pendente'}
+            {status ? 'Finalizada' : 'Pendente'}
           </span>
 
           <div>
             <p
-              ref={descricaoRef}
+              ref={descriptionRef}
               className={`text-gray-700 text-sm mb-1 transition-all duration-300 break-words ${
-                expandido ? '' : 'line-clamp-5 overflow-hidden'
+                expanded ? '' : 'line-clamp-5 overflow-hidden'
               }`}
             >
               {descricao}
             </p>
 
-            {precisaVerMais && (
+            {needsExpandToggle && (
               <div className="flex justify-end mt-1">
                 <button
                   type="button"
-                  onClick={() => setExpandido(!expandido)}
+                  onClick={() => setExpanded(!expanded)}
                   className="text-blue-600 text-xs hover:underline focus:outline-none"
                 >
-                  {expandido ? (
+                  {expanded ? (
                     <span className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                       </svg>
-                      Ver menos
+                      Mostrar menos
                     </span>
                   ) : (
                     <span className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
-                      Ver mais
+                      Mostrar mais
                     </span>
                   )}
                 </button>
@@ -108,7 +106,7 @@ const Card = ({
           </div>
         </div>
 
-        {!expandido && (
+        {!expanded && (
           <>
             <div className="text-xs text-gray-600 mt-4 space-y-1">
               <p>
@@ -118,8 +116,11 @@ const Card = ({
               <p>Atualizado em: {atualizado_em}</p>
             </div>
 
-            <button className="mt-4 bg-red-400 text-white px-4 py-2 rounded-lg shadow hover:bg-red-500 transition cursor-pointer" onClick={() => toggleCardStatus(index, status)}>
-              {!status ? 'Finalizar Tarefa' : 'Reativar Tarefa'}
+            <button
+              className="mt-4 bg-red-400 text-white px-4 py-2 rounded-lg shadow hover:bg-red-500 transition cursor-pointer"
+              onClick={() => toggleCardStatus(index, status)}
+            >
+              {!status ? 'Finalizar Task' : 'Reativar Task'}
             </button>
           </>
         )}

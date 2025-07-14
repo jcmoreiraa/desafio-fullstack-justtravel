@@ -2,7 +2,7 @@ from app import app
 from orm.models import db, Tarefa
 from datetime import datetime
 
-tarefas = [
+tasks = [
     {
         
         "titulo": "Entregar relatório de Teoria da Computação",
@@ -96,11 +96,11 @@ tarefas = [
 ]
 
 with app.app_context():
-    for t in tarefas:
+    for t in tasks:
         criado_em = datetime.strptime(t["criado_em"], "%Y-%m-%d")
         atualizado_em = datetime.strptime(t["atualizado_em"], "%Y-%m-%d")
 
-        tarefa = Tarefa(
+        task = Tarefa(
             titulo=t["titulo"],
             descricao=t["descricao"],
             status=t["status"],
@@ -108,6 +108,6 @@ with app.app_context():
             criado_em=criado_em,
             atualizado_em=atualizado_em,
         )
-        db.session.merge(tarefa) 
+        db.session.merge(task) 
     db.session.commit()
     print("Seed finalizado!")

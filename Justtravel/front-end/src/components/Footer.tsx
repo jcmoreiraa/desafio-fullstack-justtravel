@@ -18,7 +18,7 @@ export default function Footer() {
           </a>
         </p>
         </div>
-        <p className="text-gray-700 font-bold"> UFBA</p>
+        <p className="text-gray-700 font-bold"> Ciência da Computação - Universidade Federal da Bahia</p>
       </div>
     </footer>
   );
