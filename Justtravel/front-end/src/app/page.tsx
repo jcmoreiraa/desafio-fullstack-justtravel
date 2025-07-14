@@ -107,7 +107,7 @@ export default function Home() {
     card.titulo.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  let sortedPendingTasks: CardType[] = [...filteredPendingTasks]
+  const sortedPendingTasks: CardType[] = [...filteredPendingTasks]
 
   if (sortType === 'data') {
     sortedPendingTasks.sort((a, b) => {
