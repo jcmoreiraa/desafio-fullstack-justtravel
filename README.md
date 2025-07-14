@@ -58,7 +58,8 @@
 
 # 1. Clone o repositório
 git clone https://github.com/jcmoreiraa/desafio-fullstack-justtravel.git
-cd desafio-fullstack-justtravel
+
+cd desafio-fullstack-justtravel/Justtravel/backend
 
 # 2. Suba os containers
 docker-compose up --build -d
@@ -66,13 +67,13 @@ docker-compose up --build -d
 **Atenção:** Não se esqueça que o container PostgreSQL será alocado à porta 5432, então certifique-se que essa porta não estará em uso no momento da build
 
 
-### 💀 Rodando manualmente
+### 💀 Executando manualmente
 
 
 
 
 # Acesse a pasta do backend
-cd backend
+cd Justtravel/backend
 
 # Crie e ative um ambiente virtual
 python -m venv venv
